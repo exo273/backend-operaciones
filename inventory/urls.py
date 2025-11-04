@@ -14,12 +14,12 @@ from .views import (
 )
 
 router = DefaultRouter()
-router.register(r'categories', CategoryViewSet, basename='category')
-router.register(r'units', UnitOfMeasureViewSet, basename='unit')
-router.register(r'purchase-units', PurchaseUnitViewSet, basename='purchase-unit')
-router.register(r'products', ProductViewSet, basename='product')
-router.register(r'purchases', PurchaseViewSet, basename='purchase')
-router.register(r'purchase-items', PurchaseItemViewSet, basename='purchase-item')
+router.register(r'categorias', CategoryViewSet, basename='category')
+router.register(r'unidades', UnitOfMeasureViewSet, basename='unit')
+router.register(r'unidades-compra', PurchaseUnitViewSet, basename='purchase-unit')
+router.register(r'productos', ProductViewSet, basename='product')
+router.register(r'compras', PurchaseViewSet, basename='purchase')
+router.register(r'items-compra', PurchaseItemViewSet, basename='purchase-item')
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -16,9 +16,9 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
     # API endpoints - Internal (requieren autenticación)
-    path('api/operations/suppliers/', include('suppliers.urls')),
-    path('api/operations/inventory/', include('inventory.urls')),
-    path('api/operations/recipes/', include('recipes.urls')),
+    path('api/operaciones/proveedores/', include('suppliers.urls')),
+    path('api/operaciones/', include('inventory.urls')),
+    path('api/operaciones/recetas/', include('recipes.urls')),
     
     # API endpoints - Public (sin autenticación para el sitio web)
     path('api/website/', include('website_api_urls')),

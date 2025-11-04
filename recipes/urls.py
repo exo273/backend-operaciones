@@ -8,7 +8,7 @@ from .views import RecipeViewSet, RecipeIngredientViewSet
 
 router = DefaultRouter()
 router.register(r'', RecipeViewSet, basename='recipe')
-router.register(r'ingredients', RecipeIngredientViewSet, basename='recipe-ingredient')
+router.register(r'ingredientes', RecipeIngredientViewSet, basename='recipe-ingredient')
 
 urlpatterns = [
     path('', include(router.urls)),
