@@ -18,7 +18,7 @@ from legal.models import LegalPage
 from reservations.models import Reservation
 from loyalty_club.models import LoyaltyProgram, ClubMember
 
-from .website_api_serializers import (
+from website_api_serializers import (
     WebsiteSettingsSerializer,
     GalleryImageSerializer,
     CategorySimpleSerializer,
