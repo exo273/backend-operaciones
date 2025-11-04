@@ -1,0 +1,7 @@
+from django.apps import AppConfig
+
+
+class WebsiteConfigConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'website_config'
+    verbose_name = 'Configuración del Sitio Web'
