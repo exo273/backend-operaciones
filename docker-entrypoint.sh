@@ -34,7 +34,7 @@ END
 
 # Crear migraciones para todas las apps
 echo "Creando migraciones..."
-python manage.py makemigrations suppliers inventory recipes website_config blog legal reservations loyalty_club
+python manage.py makemigrations suppliers inventory recipes website_config blog legal reservations loyalty_club restaurant_config
 
 # Aplicar migraciones
 echo "Aplicando migraciones..."
