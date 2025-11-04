@@ -12,6 +12,7 @@ class ReservationAdmin(admin.ModelAdmin):
         'time',
         'guests',
         'phone',
+        'status',
         'status_badge',
         'is_past_due',
         'created_at'

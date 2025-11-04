@@ -53,6 +53,7 @@ class ClubMemberAdmin(admin.ModelAdmin):
         'member_code',
         'email',
         'phone',
+        'status',
         'status_badge',
         'points_balance',
         'join_date'
