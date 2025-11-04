@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'suppliers',
     'inventory',
     'recipes',
+    'restaurant_config',
     
     # Local apps - Website/CMS
     'website_config',

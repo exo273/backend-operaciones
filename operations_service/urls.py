@@ -19,6 +19,7 @@ urlpatterns = [
     path('api/operaciones/proveedores/', include('suppliers.urls')),
     path('api/operaciones/', include('inventory.urls')),
     path('api/operaciones/recetas/', include('recipes.urls')),
+    path('api/operaciones/config/', include('restaurant_config.urls')),
     
     # API endpoints - Public (sin autenticación para el sitio web)
     path('api/website/', include('website_api_urls')),
