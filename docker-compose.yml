@@ -10,6 +10,7 @@ services:
     environment:
       - DEBUG=${DEBUG:-False}
       - SECRET_KEY=${SECRET_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
       - DB_NAME=${DB_NAME:-sig_operaciones}
       - DB_USER=${DB_USER:-siguser}
       - DB_PASSWORD=${DB_PASSWORD}
