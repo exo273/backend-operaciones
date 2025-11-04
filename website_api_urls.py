@@ -4,7 +4,7 @@ Estas rutas no requieren autenticación.
 """
 
 from django.urls import path
-from .website_api_views import (
+from website_api_views import (
     WebsiteConfigView,
     GalleryImageListView,
     WebMenuView,
