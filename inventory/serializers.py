@@ -67,6 +67,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'current_stock',
             'average_cost',
             'low_stock_threshold',
+            'waste_percentage',
             'is_low_stock',
             'is_active',
             'created_at',

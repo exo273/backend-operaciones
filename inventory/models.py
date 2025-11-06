@@ -4,7 +4,7 @@ Gestiona categorías, unidades de medida, productos, compras y stock.
 """
 
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from decimal import Decimal
 from django.db import transaction
 
@@ -81,6 +81,15 @@ class Product(models.Model):
         validators=[MinValueValidator(Decimal('0'))],
         verbose_name="Umbral de Stock Bajo",
         help_text="Alerta cuando el stock sea menor a este valor"
+    )
+    waste_percentage = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(Decimal('0')), MaxValueValidator(Decimal('100'))],
+        verbose_name="Porcentaje de Merma",
+        help_text="Porcentaje de merma o desperdicio del producto (0-100%)"
     )
     
     # Campos para el sitio web
