@@ -2,6 +2,7 @@
 Views (ViewSets) para la aplicación Inventory.
 """
 
+from decimal import Decimal
 from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -93,6 +94,62 @@ class ProductViewSet(viewsets.ModelViewSet):
             'current_stock': product.current_stock,
             'average_cost': product.average_cost,
             'purchases': purchase_serializer.data,
+        })
+
+    @action(detail=True, methods=['post'])
+    def adjust_stock(self, request, pk=None):
+        """Ajustar el stock de un producto manualmente."""
+        product = self.get_object()
+        
+        adjustment_type = request.data.get('tipo_ajuste')  # 'entrada' o 'salida'
+        quantity = request.data.get('cantidad')
+        reason = request.data.get('razon', '')
+        
+        if not adjustment_type or quantity is None:
+            return Response(
+                {'error': 'tipo_ajuste y cantidad son requeridos'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            quantity = Decimal(str(quantity))
+            if quantity <= 0:
+                return Response(
+                    {'error': 'La cantidad debe ser mayor a 0'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+        except (ValueError, TypeError):
+            return Response(
+                {'error': 'Cantidad inválida'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Aplicar ajuste
+        if adjustment_type == 'entrada':
+            product.current_stock += quantity
+        elif adjustment_type == 'salida':
+            if product.current_stock < quantity:
+                return Response(
+                    {'error': f'Stock insuficiente. Stock actual: {product.current_stock}'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            product.current_stock -= quantity
+        else:
+            return Response(
+                {'error': 'tipo_ajuste debe ser "entrada" o "salida"'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        product.save()
+        
+        # TODO: Registrar el ajuste en un modelo de auditoría
+        # Por ahora solo retornamos el producto actualizado
+        
+        serializer = self.get_serializer(product)
+        return Response({
+            'message': f'Ajuste de stock aplicado: {adjustment_type} de {quantity} unidades',
+            'reason': reason,
+            'product': serializer.data
         })
 
 
