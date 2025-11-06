@@ -7,6 +7,30 @@ from django.db import models
 from django.core.validators import RegexValidator
 
 
+class SupplierCategory(models.Model):
+    """Categoría de proveedor."""
+    
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        verbose_name="Nombre"
+    )
+    description = models.TextField(
+        blank=True,
+        verbose_name="Descripción"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Categoría de Proveedor"
+        verbose_name_plural = "Categorías de Proveedores"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class Supplier(models.Model):
     """Proveedor de productos."""
     
@@ -27,6 +51,14 @@ class Supplier(models.Model):
         validators=[rut_validator],
         verbose_name="RUT",
         help_text="Formato: 12345678-9"
+    )
+    category = models.ForeignKey(
+        SupplierCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='suppliers',
+        verbose_name="Categoría"
     )
     contact_person = models.CharField(
         max_length=200,
@@ -79,6 +111,7 @@ class Supplier(models.Model):
             models.Index(fields=['name']),
             models.Index(fields=['rut']),
             models.Index(fields=['is_active']),
+            models.Index(fields=['category']),
         ]
 
     def __str__(self):

@@ -6,8 +6,40 @@ from rest_framework import viewsets, filters, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Supplier
-from .serializers import SupplierSerializer, SupplierListSerializer
+from .models import Supplier, SupplierCategory
+from .serializers import (
+    SupplierSerializer, 
+    SupplierListSerializer,
+    SupplierCategorySerializer
+)
+
+
+class SupplierCategoryViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para CRUD de categorías de proveedores.
+    
+    list: Obtener listado de categorías
+    create: Crear nueva categoría
+    retrieve: Obtener detalle de una categoría
+    update: Actualizar categoría completa
+    partial_update: Actualizar categoría parcial
+    destroy: Eliminar categoría
+    """
+    
+    queryset = SupplierCategory.objects.all()
+    serializer_class = SupplierCategorySerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'description']
+    ordering_fields = ['name', 'created_at']
+    ordering = ['name']
+
+    @action(detail=True, methods=['get'])
+    def suppliers(self, request, pk=None):
+        """Obtener proveedores de esta categoría."""
+        category = self.get_object()
+        suppliers = category.suppliers.filter(is_active=True)
+        serializer = SupplierListSerializer(suppliers, many=True)
+        return Response(serializer.data)
 
 
 class SupplierViewSet(viewsets.ModelViewSet):
@@ -25,7 +57,7 @@ class SupplierViewSet(viewsets.ModelViewSet):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['is_active', 'city', 'region']
+    filterset_fields = ['is_active', 'category', 'city', 'region']
     search_fields = ['name', 'rut', 'contact_person', 'email']
     ordering_fields = ['name', 'created_at', 'updated_at']
     ordering = ['name']
